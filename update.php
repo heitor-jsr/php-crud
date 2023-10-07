@@ -1,5 +1,17 @@
 <?php
 include 'connect.php';
+$id = $_GET['updateid'];
+
+$sql = "SELECT * FROM `user`";
+$result = mysqli_query($con, $sql);
+
+$row = mysqli_fetch_assoc($result);
+
+$id = $row['id'];
+$name = $row['name'];
+$email = $row['email'];
+$mobile = $row['mobile'];
+$password = $row['password'];
 
 if(isset($_POST['submit'])){
   $name = $_POST['name'];
@@ -7,18 +19,15 @@ if(isset($_POST['submit'])){
   $mobile = $_POST['mobile'];
   $password = $_POST['password'];
 
-  $sql = "INSERT INTO `user` (name, email, mobile, password) VALUES ('$name', '$email', '$mobile', '$password')";
+  $sql = "UPDATE `user` SET name='$name', email='$email', mobile='$mobile', password='$password' WHERE id=$id";
 
   if ($con->query($sql) === TRUE) {
-    header("location:display.php");
+    header("location: display.php");
   } else {
     echo "Error: " . $con->error;
   }
 }
 ?>
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -37,22 +46,22 @@ if(isset($_POST['submit'])){
     <form method='post'>
       <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" placeholder='Enter your name' name='name' autocomplete='of'>
+        <input type="text" class="form-control" placeholder='Enter your name' name='name' autocomplete='off' value=<?php echo $name?>>
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder='Enter your email' name='email' autocomplete='of'>
+        <input type="email" class="form-control" placeholder='Enter your email' name='email' autocomplete='off' value=<?php echo $email?>>
       </div>
       <div class="mb-3">
         <label class="form-label">Mobile</label>
-        <input type="text" class="form-control" placeholder='Enter your mobile number' name='mobile' autocomplete='of'>
+        <input type="text" class="form-control" placeholder='Enter your mobile number' name='mobile' autocomplete='off'value=<?php echo $mobile?>>
       </div>
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input type="password" class="form-control" placeholder='Enter your password' name='password' autocomplete='of'>
+        <input type="password" class="form-control" placeholder='Enter your password' name='password' autocomplete='off' value=<?php echo $password?>>
       </div>
 
-      <button type="submit" class="btn btn-primary" name='submit'>Submit</button>
+      <button type="submit" class="btn btn-primary" name='submit'>Update</button>
     </form>
     </div>
   </body>
