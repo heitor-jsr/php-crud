@@ -7,21 +7,19 @@ if(isset($_POST['submit'])){
   $mobile = $_POST['mobile'];
   $password = $_POST['password'];
 
-  // Now you can use these variables for further processing, such as inserting them into a database or performing some other actions.
-
   // Use proper concatenation or interpolation to construct your SQL query
   $sql = "INSERT INTO `user` (name, email, mobile, password) VALUES ('$name', '$email', '$mobile', '$password')";
 
-  $result=mysqli_query($con,$sql);
-
   // Perform the SQL query using the database connection
   if ($con->query($sql) === TRUE) {
-    echo "Record inserted successfully";
+    // echo "Record inserted successfully";
+    header("location:display.php");
   } else {
     echo "Error: " . $con->error;
   }
 }
 ?>
+
 
 
 
