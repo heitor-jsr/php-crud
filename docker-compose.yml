@@ -1,0 +1,45 @@
+version: '3'
+services:
+  # Serviço do servidor web PHP (usando o Dockerfile personalizado)
+  php:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: php_crud
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/www/html
+    networks:
+      - php_mysql_network
+
+  # Serviço do servidor MySQL (última versão)
+  mysql:
+    image: mysql
+    container_name: mysql_crud
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: crud_db
+      MYSQL_USER: crud_user
+      MYSQL_PASSWORD: your_user_password
+    ports:
+      - "3307:3307"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - php_mysql_network
+
+  # Serviço do phpMyAdmin (última versão)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_crud
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3307
+    ports:
+      - "8081:80"
+    networks:
+      - php_mysql_network
+
+networks:
+  php_mysql_network:
